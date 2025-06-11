@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
@@ -36,63 +37,63 @@ fun Homework(
     date: String
 ) {
 
-    Column(
+    Row(
         modifier = modifier
+            .widthIn(
+                max = 300.dp
+            )
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(5.dp))
             .background(Color(232, 116, 87)),
-        horizontalAlignment = Alignment.End,
     ) {
-        Row(
+        Icon(
+            imageVector = Icons.Outlined.CheckCircle,
+            contentDescription = null,
+            tint = Color.White,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.Top
+                .size(24.dp)
+                .padding(
+                    start = 8.dp,
+                    top = 8.dp,
+                )
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .padding(
+                    horizontal = 8.dp, vertical = 4.dp
+                )
         ) {
-            Icon(
-                imageVector = Icons.Outlined.CheckCircle,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier
-                    .size(24.dp)
-            )
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 8.dp)
-            ) {
+            Row {
                 Text(
+                    modifier = Modifier.weight(1f),
                     text = title,
                     textAlign = TextAlign.Start,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
-                Text(
-                    description,
-                    textAlign = TextAlign.Start,
-                    fontSize = 12.sp,
-                    color = Color.White
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.more_horizontal),
+                    contentDescription = null,
+                    tint = Color.White
                 )
             }
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.more_horizontal),
-                contentDescription = null,
-                tint = Color.White
+            Text(
+                description,
+                textAlign = TextAlign.Start,
+                fontSize = 12.sp,
+                color = Color.White
             )
-
+            Text(
+                date,
+                modifier = Modifier
+                    .align(Alignment.End),
+                fontSize = 12.sp,
+                color = Color.White,
+            )
         }
-
-        Text(
-            date,
-            fontSize = 12.sp,
-            color = Color.White,
-            modifier = Modifier
-                .padding(8.dp),
-        )
 
     }
 }
