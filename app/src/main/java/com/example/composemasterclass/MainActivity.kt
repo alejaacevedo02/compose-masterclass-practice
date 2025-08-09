@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composemasterclass.basic_layout.HotelBookingScreen
+import com.example.composemasterclass.state_management.number_guess.NumberGuessScreenRoot
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,9 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposemasterclassTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HotelBookingScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NumberGuessScreenRoot(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
