@@ -56,6 +56,7 @@ fun NumberGuessScreen(
         )
 
         Button(
+            enabled = !state.isGuessCorrect,
             onClick = {
                 onEvent(NumberGuessEvent.OnGuessClicked)
             }
