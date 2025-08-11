@@ -12,8 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,9 +23,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.composemasterclass.R
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
@@ -80,12 +83,7 @@ fun Homework(
                     tint = Color.White
                 )
             }
-            Text(
-                description,
-                textAlign = TextAlign.Start,
-                fontSize = 12.sp,
-                color = Color.White
-            )
+            TextWithOverflow(description)
             Text(
                 date,
                 modifier = Modifier
@@ -96,6 +94,27 @@ fun Homework(
         }
 
     }
+}
+
+@Composable
+private fun TextWithOverflow(description: String) {
+    val windowClass = currentWindowAdaptiveInfo().windowSizeClass
+    val maxChars = when (windowClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.EXPANDED -> 250 // Tablet
+        else -> 150 // Phone
+    }
+    val displayText = if (description.length > maxChars) {
+        description.take(maxChars) + "..."
+    } else {
+        description
+    }
+    Text(
+        displayText,
+        textAlign = TextAlign.Start,
+        fontSize = 12.sp,
+        color = Color.White,
+        overflow = TextOverflow.Ellipsis,
+    )
 }
 
 
@@ -116,7 +135,6 @@ private fun HomeworkPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun HomeworkSmallPreview() {
-    // Preview your homework implementation here
     ComposemasterclassTheme {
         Homework(
             title = "Project X",
@@ -125,3 +143,33 @@ private fun HomeworkSmallPreview() {
         )
     }
 }
+
+@Preview(device = Devices.PHONE)
+@Composable
+private fun HomeworkPreviewPhone() {
+    // Preview your homework implementation here
+    val text300 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor."
+
+    ComposemasterclassTheme {
+        Homework(
+            title = "Project X",
+            description = text300,
+            date = "Mar 5, 10:00",
+        )
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+private fun HomeworkPreviewTablet() {
+    // Preview your homework implementation here
+    val text300 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor."
+    ComposemasterclassTheme {
+        Homework(
+            title = "Project X",
+            description = text300,
+                date = "Mar 5, 10:00",
+        )
+    }
+}
+
