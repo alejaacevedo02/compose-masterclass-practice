@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composemasterclass.basic_layout.HotelBookingScreen
+import com.example.composemasterclass.basic_modifiers.FocusManagementModifiersDemo
 import com.example.composemasterclass.basic_modifiers.SpacingModifierDemo
 import com.example.composemasterclass.state_management.number_guess.NumberGuessScreenRoot
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
@@ -32,12 +33,13 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets.safeGestures
                 ) { innerPadding ->
-                    SpacingModifierDemo(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding)
-                    )
+//                    SpacingModifierDemo(
+//                        modifier = Modifier
+//                            .padding(innerPadding)
+//                            .consumeWindowInsets(innerPadding)
+//                    )
                     //NumberGuessScreenRoot(modifier = Modifier.padding(innerPadding))
+                    FocusManagementModifiersDemo(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
