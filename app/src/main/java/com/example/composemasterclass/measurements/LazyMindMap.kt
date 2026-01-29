@@ -137,12 +137,3 @@ fun LazyMindMap(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun LazyMindMapPreview() {
-//    ComposemasterclassTheme {
-//
-//        LazyMindMap()
-//    }
-//}
