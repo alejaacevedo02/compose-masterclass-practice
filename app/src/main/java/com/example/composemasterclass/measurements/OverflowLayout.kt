@@ -3,6 +3,7 @@ package com.example.composemasterclass.measurements
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
@@ -17,10 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
 @Composable
@@ -44,25 +45,26 @@ fun OverflowLayout(
         val overflowWidth = overflowPlaceables.maxOfOrNull { it.width } ?: 0
 
         val layoutWidth = maxOf(mainWidth, overflowWidth)
-        val layoutHeight = mainHeight + if (isOverflowing) overflowHeight else 0
+        val layoutHeight = mainHeight + overflowHeight
 
         layout(layoutWidth, layoutHeight) {
             var y = 0
-            mainPlaceables.forEach { it.placeRelative(0, y) }
+            mainPlaceables.fastForEach { it.place(0, 0) }
             y += mainHeight
-            if (isOverflowing) {
-                overflowPlaceables.forEach { it.placeRelative(0, y) }
-            }
+            overflowPlaceables.fastForEach { it.place(0, mainHeight) }
         }
     }
 }
 
+
 @Composable
 fun ToggleSection(showOverFlow: Boolean, onToggleClick: (Boolean) -> Unit) {
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Text(text = "this is a toggle Section")
         IconButton(onClick = { onToggleClick(!showOverFlow) }) {
@@ -88,15 +90,20 @@ fun ToggleSectionPreview() {
 @Composable
 fun OverflowLayoutPreview() {
 
-    var showOverflow by remember { mutableStateOf(false) }
+    var isOverflowing by remember { mutableStateOf(false) }
     OverflowLayout(
-        isOverflowing = showOverflow,
+        isOverflowing = isOverflowing,
         mainContent = {
-           ToggleSection(showOverflow, onToggleClick = { showOverflow = it })
+            ToggleSection(isOverflowing, onToggleClick = { isOverflowing = it })
         },
         overflowContent = {
-            Text("Secret Section",
-                modifier = Modifier.background(Color.Yellow))
+            Text(
+                "Secret Section",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Yellow)
+                    .padding(16.dp)
+            )
         }
     )
 }
