@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import com.example.composemasterclass.measurements.LazyMindMap
 import com.example.composemasterclass.measurements.MindMapItem
+import com.example.composemasterclass.side_effects.LaunchedEffectDemo
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,51 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets.safeGestures
                 ) { innerPadding ->
-                    val mindMapItems = remember {
-                        listOf(
-                            MindMapItem(
-                                title = "Hello world 1",
-                                percentageOffset = Offset(
-                                    0f,
-                                    0f
-                                )
-                            ),
-                            MindMapItem(
-                                title = "Hello world 2",
-                                percentageOffset = Offset(
-                                    1f,
-                                    0f
-                                )
-                            ),
-                            MindMapItem(
-                                title = "Hello world 3",
-                                percentageOffset = Offset(
-                                    0.3f,
-                                    -0.5f
-                                )
-                            ),
-                            MindMapItem(
-                                title = "Hello world 4",
-                                percentageOffset = Offset(
-                                    -0.2f,
-                                    0.5f
-                                )
-                            )
-                        )
-                    }
-                    var mindMapOffset by remember {
-                        mutableStateOf(IntOffset.Zero)
-                    }
-                    LazyMindMap(
-                        itemsList = mindMapItems,
-                        mindMapOffset = mindMapOffset,
-                        onDrag = { delta -> mindMapOffset += delta },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-
-
-                    )
+                    LaunchedEffectDemo(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
