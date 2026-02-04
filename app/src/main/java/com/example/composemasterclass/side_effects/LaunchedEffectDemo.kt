@@ -14,54 +14,65 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+class EffectHandlerViewModelDemo : ViewModel() {
+    private val _counter = MutableStateFlow(0)
+    val counter = _counter.asStateFlow()
+
+    val snackbarHostState = SnackbarHostState()
+
+    fun incrementCounter() {
+        _counter.value += 1
+    }
+
+    init {
+        viewModelScope.launch {
+            counter.collectLatest { counter ->
+                if (counter % 2 == 0 && counter != 0) {
+                    snackbarHostState.showSnackbar("Number is even: $counter")
+                }
+
+            }
+        }
+    }
+}
 
 @Composable
 fun LaunchedEffectDemo(
     modifier: Modifier = Modifier
 ) {
-    var counter by remember {
-        mutableIntStateOf(0)
-    }
-
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
-    // Either use LaunchedEffect or rememberCoroutineScope
-    // val scope = rememberCoroutineScope()
+    val viewModel = viewModel<EffectHandlerViewModelDemo>()
+    val counter by viewModel.counter.collectAsStateWithLifecycle()
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
 
         }
     // Launch the permission request when the composable enters the composition, constant value as key
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         launcher.launch(Manifest.permission.RECORD_AUDIO)
     }
 
-    LaunchedEffect(counter) {
-        if (counter % 2 == 0 && counter != 0) {
-            snackbarHostState.showSnackbar("Number is even: $counter")
-        }
-    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = { SnackbarHost(hostState = viewModel.snackbarHostState) }
     ) { innerPadding ->
 
         Button(
             onClick = {
-                counter++
-//                if (counter % 2 == 0) {
-//                    scope.launch {
-//                        snackbarHostState.showSnackbar("Number is even: $counter")
-//                    }
+                viewModel.incrementCounter()
             },
             modifier = Modifier
                 .fillMaxSize()
