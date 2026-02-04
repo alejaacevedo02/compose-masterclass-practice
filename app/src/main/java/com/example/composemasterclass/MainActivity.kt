@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composemasterclass.side_effects.LaunchedEffectDemo
+import com.example.composemasterclass.side_effects.SideEffectsHomework
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +26,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets.safeGestures
                 ) { innerPadding ->
-                    LaunchedEffectDemo(
+                    val list = List(100) { "Item #$it" }
+                    SideEffectsHomework(
+                        list = list,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
