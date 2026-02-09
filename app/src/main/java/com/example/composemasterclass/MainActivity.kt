@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeGestures
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composemasterclass.composition_locals.CompositionLocalsHomework
 import com.example.composemasterclass.side_effects.SideEffectsHomework
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
@@ -26,11 +29,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets.safeGestures
                 ) { innerPadding ->
-                    val list = List(100) { "Item #$it" }
-                    SideEffectsHomework(
-                        list = list,
+                    CompositionLocalsHomework(
                         modifier = Modifier
                             .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
                             .padding(innerPadding)
                     )
                 }

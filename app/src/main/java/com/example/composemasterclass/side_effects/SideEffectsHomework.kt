@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -61,7 +62,7 @@ fun SideEffectsHomework(list: List<String>, modifier: Modifier = Modifier) {
                 modifier = Modifier.weight(1f)
             ) {
                 items(list.size) { index ->
-                    androidx.compose.material3.Text(
+                    Text(
                         text = list[index],
                         modifier = Modifier
                             .padding(16.dp)
