@@ -91,6 +91,7 @@ class NegativePaddingNode(
 
 @Composable
 fun Modifier.negativePadding(horizontal: Dp): Modifier {
+    // Can contain invalid value since the composable can override its composition local values, so we need to get the current value of the density
     val density = LocalDensity.current
     val horizontalPx = with(density) {
         horizontal.roundToPx()
