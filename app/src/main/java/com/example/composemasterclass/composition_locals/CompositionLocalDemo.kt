@@ -9,12 +9,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -23,9 +24,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.composemasterclass.ui.theme.ComposemasterclassTheme
 
+val localShape = compositionLocalOf {
+    RectangleShape
+}
+
+@Composable
+fun MyCustomShapeDemo() {
+    val shape = localShape.current
+    // gives you access to the current shape provided by the composition local
+ // if no shape is provided, it will return the default value which is RectangleShape in this case
+
+    Button(onClick = {},
+        shape = shape
+    ) {
+        Text("My custom shape")
+    }
+
+}
+
 @Composable
 fun CompositionLocalDemo(modifier: Modifier = Modifier) {
-
     LocalContext.current // gives you access to the current context,
 // e.g. activity, application, etc. depending on where you are in the composition tree
 
@@ -95,4 +113,12 @@ fun MyCustomTopAppBarPreview() {
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MyCustomShapeDemoPreview() {
+    ComposemasterclassTheme() {
+            MyCustomShapeDemo()
+        }
 }
